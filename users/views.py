@@ -8,8 +8,9 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect('home')
+            # Temporarily disable auto-login to avoid 500 error
+            # login(request, user)
+            return redirect('login')  # Redirect to login page instead
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
