@@ -4,3 +4,4 @@ psycopg2-binary>=2.9.0
 dj-database-url>=1.2.0
 whitenoise>=6.4.0
 djangorestframework>=3.14.0
+django-cors-headers>=4.0.0
