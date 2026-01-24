@@ -1,34 +1,28 @@
-# Journaling App Backend
+# Journaling App
 
-This is the Django REST API backend for the Journaling App.
+A simple journaling application with separate backend and frontend services.
 
-## Setup
+## Structure
 
-1. Install dependencies: `pip install -r requirements.txt`
-2. Run migrations: `python manage.py migrate`
-3. Create superuser: `python manage.py createsuperuser`
-4. Run server: `python manage.py runserver`
-
-## API Endpoints
-
-### Authentication
-
-- **POST /api/register/**: Register a new user
-  - Body: `{"username": "string", "email": "string", "password1": "string", "password2": "string"}`
-  - Response: `{"message": "User registered successfully"}` or errors
-
-- **POST /api/login/**: Login user
-  - Body: `{"username": "string", "password": "string"}`
-  - Response: `{"message": "Logged in successfully"}` or `{"error": "Invalid credentials"}`
-
-### Admin
-
-- Access Django admin at `/admin/` (requires superuser login)
+- `backend/`: Django REST API backend
+- `frontend/`: Static HTML/JS frontend
 
 ## Deployment
 
-Hosted on Render with PostgreSQL database.
+### Backend
+1. Go to Render dashboard
+2. Create new Web Service
+3. Connect to `backend/` folder in your repo
+4. Use `render.yaml` for configuration
+5. Deploy
 
-## Frontend
+### Frontend
+1. Create new Static Site on Render
+2. Connect to `frontend/` folder
+3. Use `render.yaml` for configuration
+4. Update `API_BASE` in HTML files with backend URL
+5. Deploy
 
-The frontend templates are stored in the `frontend/` folder for future use as a separate service.
+## API Documentation
+
+See `backend/README.md` for API details.
