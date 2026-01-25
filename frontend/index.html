@@ -3,37 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern App</title>
+    <title>Reflective Journal</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen">
-    <div id="app" class="min-h-screen flex items-center justify-center p-4">
-        <div class="w-full max-w-md">
-            <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 p-8">
-                <h1 class="text-3xl font-bold text-white mb-2">Modern App</h1>
-                <p class="text-slate-400 mb-8">Flask + Tailwind + Vanilla JS</p>
-                
-                <div id="status" class="mb-6 p-4 bg-slate-700/50 rounded-lg border border-slate-600/50">
+    <div id="app" class="min-h-screen p-4 md:p-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold text-white mb-2">Reflective Journal</h1>
+                <p class="text-slate-400">Capture your daily reflections and gain insights</p>
+            </div>
+
+            <!-- Date Picker and Status -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div>
+                    <label class="block text-slate-300 text-sm font-semibold mb-2">Select Date</label>
+                    <input 
+                        type="date" 
+                        id="dateInput" 
+                        class="w-full px-4 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+                <div id="statusDiv" class="md:col-span-2 p-4 bg-slate-700/50 rounded-lg border border-slate-600/50">
                     <p class="text-slate-300">Status: <span class="text-amber-400" id="statusText">Checking...</span></p>
                 </div>
+            </div>
 
-                <div class="space-y-4">
-                    <input 
-                        type="text" 
-                        id="messageInput" 
-                        placeholder="Enter a message..." 
-                        class="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                    />
-                    <button 
-                        id="sendBtn" 
-                        class="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 transition shadow-lg"
-                    >
-                        Send
-                    </button>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Journal Entry Area -->
+                <div class="lg:col-span-2">
+                    <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 p-8">
+                        <h2 class="text-2xl font-bold text-white mb-4">Today's Reflection</h2>
+                        
+                        <textarea 
+                            id="reflectionInput" 
+                            placeholder="Write your thoughts, feelings, and reflections for today..." 
+                            class="w-full h-64 px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                        ></textarea>
+                        
+                        <button 
+                            id="saveBtn" 
+                            class="mt-4 px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg hover:from-green-700 hover:to-green-800 transition shadow-lg"
+                        >
+                            Save Entry
+                        </button>
+                    </div>
+
+                    <!-- Entries List -->
+                    <div class="mt-6 bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 p-8">
+                        <h3 class="text-xl font-bold text-white mb-4">Today's Entries (<span id="entryCount">0</span>)</h3>
+                        <div id="entriesList" class="space-y-3 max-h-64 overflow-y-auto">
+                            <p class="text-slate-400">No entries yet. Start by writing your first reflection.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div id="response" class="mt-6 p-4 bg-slate-700/50 rounded-lg border border-slate-600/50 hidden">
-                    <p class="text-slate-300"><span class="text-green-400" id="responseText"></span></p>
+                <!-- Sidebar - Summary & Insights -->
+                <div class="space-y-6">
+                    <!-- Summary Section -->
+                    <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 p-6">
+                        <h3 class="text-lg font-bold text-white mb-4">Daily Summary</h3>
+                        <button 
+                            id="summaryBtn" 
+                            class="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 transition mb-4"
+                        >
+                            Generate Summary
+                        </button>
+                        <div id="summaryContent" class="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap hidden"></div>
+                        <p id="summaryPlaceholder" class="text-slate-400 text-sm">Click the button to generate your daily summary.</p>
+                    </div>
+
+                    <!-- Insights Section -->
+                    <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 p-6">
+                        <h3 class="text-lg font-bold text-white mb-4">Insights</h3>
+                        <button 
+                            id="insightsBtn" 
+                            class="w-full px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-purple-800 transition mb-4"
+                        >
+                            Generate Insights
+                        </button>
+                        <div id="insightsContent" class="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap hidden"></div>
+                        <p id="insightsPlaceholder" class="text-slate-400 text-sm">Click the button to generate insights from today's entries.</p>
+                    </div>
                 </div>
             </div>
         </div>
