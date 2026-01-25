@@ -1,6 +1,7 @@
 services:
   - type: web
-    name: rflctjnl-frontend
+    name: rflctvjnlf
     env: static
+    rootDirectory: frontend
     buildCommand: echo "No build step"
-    staticPublishPath: .
+    publishDir: .
