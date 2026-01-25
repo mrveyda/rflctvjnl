@@ -1,12 +1,21 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from .forms import RegisterForm
+
+User = get_user_model()
 
 @api_view(['GET'])
 def api_health(request):
     return Response({"status": "ok", "message": "Backend is running"})
+
+@api_view(['GET'])
+def create_superuser(request):
+    if User.objects.filter(username='admin').exists():
+        return Response({'message': 'Superuser already exists'})
+    User.objects.create_superuser('admin', 'admin@example.com', 'admin123')
+    return Response({'message': 'Superuser created'})
 
 @api_view(['POST'])
 def api_register(request):
