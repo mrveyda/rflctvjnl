@@ -1,5 +1,14 @@
 const API_BASE = 'http://localhost:5000/api';
 
+// Get auth token
+function getAuthHeader() {
+    const token = localStorage.getItem('authToken');
+    return {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+    };
+}
+
 // Set today's date as default
 function initializeDate() {
     const today = new Date().toISOString().split('T')[0];
@@ -26,7 +35,9 @@ async function checkHealth() {
 // Load entries for a specific date
 async function loadEntriesForDate(date) {
     try {
-        const response = await fetch(`${API_BASE}/entries/${date}`);
+        const response = await fetch(`${API_BASE}/entries/${date}`, {
+            headers: getAuthHeader()
+        });
         const data = await response.json();
         
         displayEntries(data.entries || []);
@@ -81,9 +92,7 @@ async function saveEntry() {
     try {
         const response = await fetch(`${API_BASE}/entries/${date}`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getAuthHeader(),
             body: JSON.stringify({ reflection })
         });
         
@@ -106,7 +115,8 @@ async function generateSummary() {
     
     try {
         const response = await fetch(`${API_BASE}/summary/${date}`, {
-            method: 'POST'
+            method: 'POST',
+            headers: getAuthHeader()
         });
         
         const data = await response.json();
@@ -130,7 +140,8 @@ async function generateInsights() {
     
     try {
         const response = await fetch(`${API_BASE}/insights/${date}`, {
-            method: 'POST'
+            method: 'POST',
+            headers: getAuthHeader()
         });
         
         const data = await response.json();
@@ -161,6 +172,16 @@ document.getElementById('reflectionInput').addEventListener('keydown', (e) => {
     }
 });
 
-// Initialize
-checkHealth();
-initializeDate();
+// Initialize when main app is shown
+let initialized = false;
+const observer = new MutationObserver(() => {
+    const mainApp = document.getElementById('mainApp');
+    if (!mainApp.classList.contains('hidden') && !initialized) {
+        initialized = true;
+        checkHealth();
+        initializeDate();
+    }
+});
+
+observer.observe(document.getElementById('mainApp'), { attributes: true, attributeFilter: ['class'] });
+
