@@ -74,6 +74,10 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
             body: JSON.stringify({ username, password })
         });
         
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
+        
         const data = await response.json();
         
         if (data.success) {
@@ -90,8 +94,8 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
             showAuthError(data.error || 'Login failed');
         }
     } catch (error) {
-        showAuthError('Error connecting to server');
-        console.error(error);
+        console.error('Login error:', error);
+        showAuthError('Error: ' + error.message);
     }
 });
 
@@ -113,6 +117,9 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
             body: JSON.stringify({ username, email, password })
         });
         
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);\n        }
+        
         const data = await response.json();
         
         if (data.success) {
@@ -125,8 +132,8 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
             showAuthError(data.error || 'Registration failed');
         }
     } catch (error) {
-        showAuthError('Error connecting to server');
-        console.error(error);
+        console.error('Registration error:', error);
+        showAuthError('Error: ' + error.message);
     }
 });
 

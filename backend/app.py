@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 # In-memory storage
 users = {}  # { "username": { "password": hashed, "email": "", "is_admin": False, "created_at": "" } }
