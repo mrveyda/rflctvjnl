@@ -4,6 +4,10 @@ from rest_framework import status
 from django.contrib.auth import authenticate
 from .forms import RegisterForm
 
+@api_view(['GET'])
+def api_health(request):
+    return Response({"status": "ok", "message": "Backend is running"})
+
 @api_view(['POST'])
 def api_register(request):
     form = RegisterForm(request.data)
