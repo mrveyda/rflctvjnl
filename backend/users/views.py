@@ -11,6 +11,11 @@ def api_health(request):
     return Response({"status": "ok", "message": "Backend is running"})
 
 @api_view(['GET'])
+def check_db(request):
+    count = User.objects.count()
+    return Response({'user_count': count})
+
+@api_view(['GET'])
 def create_superuser(request):
     if User.objects.filter(username='admin').exists():
         return Response({'message': 'Superuser already exists'})
