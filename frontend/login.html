@@ -59,15 +59,69 @@
             list-style: none;
             padding: 0;
         }
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
     </style>
 </head>
 <body>
     <h1>Login to Journaling App</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+    <form id="login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+
         <button type="submit">Login</button>
     </form>
-    <a href="{% url 'register' %}">Don't have an account? Register</a>
+    <a href="register.html">Don't have an account? Register</a>
+    <div id="message"></div>
+
+    <script>
+        const API_BASE = 'https://rflctvjnlb.onrender.com/api'; // Replace with actual backend URL
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = '';
+
+            const data = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/token/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', result.access);
+                    messageDiv.innerHTML = '<div class="message success">Login successful! <a href="index.html">Go to home</a></div>';
+                } else {
+                    messageDiv.innerHTML = '<div class="message error">Invalid credentials</div>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="message error">Network error. Please try again.</div>';
+            }
+        });
+    </script>
 </body>
 </html>
