@@ -1,28 +1,36 @@
-# Journaling App
+# Modern App
 
-A simple journaling application with separate backend and frontend services.
+A sleek full-stack application with Flask backend and modern vanilla frontend.
 
-## Structure
+## Stack
 
-- `backend/`: Django REST API backend
-- `frontend/`: Static HTML/JS frontend
+- **Backend**: Flask (Python)
+- **Frontend**: HTML, Tailwind CSS, Vanilla JavaScript
+- **Communication**: REST API with CORS support
 
-## Deployment
+## Setup
 
 ### Backend
-1. Go to Render dashboard
-2. Create new Web Service
-3. Connect to `backend/` folder in your repo
-4. Use `render.yaml` for configuration
-5. Deploy
+
+```bash
+cd backend
+pip install -r requirements.txt
+python app.py
+```
+
+The backend runs on `http://localhost:5000`
 
 ### Frontend
-1. Create new Static Site on Render
-2. Connect to `frontend/` folder
-3. Use `render.yaml` for configuration
-4. Update `API_BASE` in HTML files with backend URL
-5. Deploy
 
-## API Documentation
+```bash
+cd frontend
+# Open index.html in a browser or use a simple HTTP server:
+python -m http.server 8000
+```
 
-See `backend/README.md` for API details.
+The frontend runs on `http://localhost:8000`
+
+## API Endpoints
+
+- `GET /api/health` - Health check
+- `POST /api/echo` - Echo a message back

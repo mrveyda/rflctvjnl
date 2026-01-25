@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: rflctvjnlf
-    env: static
-    rootDirectory: frontend
-    buildCommand: echo "No build step"
-    publishDir: .
